@@ -5,7 +5,7 @@ This is a plugin for shavit's bhoptimer that manages inactive players and saves 
 ## Configuration / CVars
 
 ```bash
-afk_punisment_type "1" - 1 = move to spectator, 2 = kick
+afk_punishment_type "1" - 1 = move to spectator, 2 = kick
 
 afk_time "180" - This is the amount of time in seconds that a user needs to be inactive to get promted the AFK menu.
 
