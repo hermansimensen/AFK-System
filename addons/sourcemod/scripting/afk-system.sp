@@ -146,56 +146,56 @@ public Action Timer_CheckAFK(Handle timer)
 	{
 		if(IsClientConnected(i))
 		{
-			if(!IsFakeClient(i) && !IsClientObserver(i))
+			if(!IsFakeClient(i) && IsClientInGame(i))
 			{
-				if(g_iTimesChecked[i]*gCV_UpdateInterval.FloatValue <= gCV_AFKTime.FloatValue)
-				{
-					float angles[3];
-					GetClientEyeAngles(i, angles);
-					
-					
-					for(int count = 0; count <= 1; count++)
+				if(!IsClientObserver(i))
+					if(g_iTimesChecked[i]*gCV_UpdateInterval.FloatValue <= gCV_AFKTime.FloatValue)
 					{
-						if(g_fAngles[i][count] == angles[count])
+						float angles[3];
+						GetClientEyeAngles(i, angles);
+						
+						
+						for(int count = 0; count <= 1; count++)
 						{
-							//no update, increase timeschecked
-							g_iTimesChecked[i]++;
-						} else 
-						{
-							g_fAngles[i][count] = angles[count];
-							//since we moved, we reset the timer
-							g_iTimesChecked[i] = 0;
-						}
-					}
-				}
-				else 
-				{
-					float angles[3];
-					GetClientEyeAngles(i, angles);
-					
-					for(int count = 0; count <= 1; count++)
-					{
-						if(!(g_fAngles[i][count] == angles[count]))
-						{
-							//user no longer afk
-							g_iTimesChecked[i] = 0;
-						} else 
-						{
-							//User probably afk
-							if(!g_bBeingChecked[i])
+							if(g_fAngles[i][count] == angles[count])
 							{
-								OpenAFKMenu(i);
-								g_bBeingChecked[i] = true;
+								//no update, increase timeschecked
+								g_iTimesChecked[i]++;
+							} else 
+							{
+								g_fAngles[i][count] = angles[count];
+								//since we moved, we reset the timer
+								g_iTimesChecked[i] = 0;
 							}
-							
 						}
 					}
-					
-					
+					else 
+					{
+						float angles[3];
+						GetClientEyeAngles(i, angles);
+						
+						for(int count = 0; count <= 1; count++)
+						{
+							if(!(g_fAngles[i][count] == angles[count]))
+							{
+								//user no longer afk
+								g_iTimesChecked[i] = 0;
+							} else 
+							{
+								//User probably afk
+								if(!g_bBeingChecked[i])
+								{
+									OpenAFKMenu(i);
+									g_bBeingChecked[i] = true;
+								}
+								
+							}
+						}
+						
+						
+					}
 				}
 			}
-		}
-		
 	}
 	return Plugin_Continue;
 }
